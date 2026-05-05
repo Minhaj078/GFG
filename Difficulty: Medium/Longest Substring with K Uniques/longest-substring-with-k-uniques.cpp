@@ -3,22 +3,15 @@ class Solution {
     int longestKSubstr(string &s, int k) {
         // code here
         unordered_map<char,int>mp;
-        
-        int left = 0, maxi = -1;
-        
-        for(int right = 0; right <s.size(); right++){
-            mp[s[right]]++;
+        int maxi = -1, left = 0;
+        for(int i = 0;i < s.size();i++){
+            mp[s[i]]++;
             while(mp.size() > k){
                 mp[s[left]]--;
-                if(mp[s[left]] == 0){
-                    mp.erase(s[left]);
-                }
+                if(mp[s[left]] == 0)mp.erase(s[left]);
                 left++;
             }
-            if(mp.size() == k){
-                
-            maxi = max(maxi, right - left + 1);
-            }
+            if(mp.size() == k)maxi = max(maxi, i - left + 1);
         }
         return maxi;
     }
