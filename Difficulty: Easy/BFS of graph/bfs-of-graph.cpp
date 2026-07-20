@@ -8,21 +8,23 @@ class Solution {
         queue<int>q;
         q.push(0);
         vis[0] = 1;
-        
         vector<int>ans;
         
         while(!q.empty()){
+            int sz = q.size();
             int node = q.front();
-            ans.push_back(node);
             q.pop();
             
+            
+            ans.push_back(node);
+            
             for(auto it : adj[node]){
-                if(!vis[it]){
+                
+                if(!vis[it])
                     q.push(it);
                     vis[it] = 1;
                 }
             }
-        }
         return ans;
     }
 };
