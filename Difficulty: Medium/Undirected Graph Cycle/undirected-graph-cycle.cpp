@@ -1,33 +1,24 @@
 class Solution {
-public:
-    bool detect(int src, vector<int> adj[], int vis[]) {
-        vis[src] = 1;
+  public:
+  
+bool checkCycle(int node, int parent, vector<int> adj[], int vis[]) {
+    vis[node] = 1;
 
-        queue<pair<int, int>> q;
-        q.push({src, -1});
-
-        while (!q.empty()) {
-            int node = q.front().first;
-            int parent = q.front().second;
-            q.pop();
-
-            for (auto adjNode : adj[node]) {
-
-                if (!vis[adjNode]) {
-                    vis[adjNode] = 1;
-                    q.push({adjNode, node});
-                }
-                else if (parent != adjNode) {
-                    return true;
-                }
-            }
+    for (auto it : adj[node]) {
+        if (!vis[it]) {
+            if (checkCycle(it, node, adj, vis))
+                return true;
         }
-
-        return false;
+        else if (it != parent) {
+            return true;
+        }
     }
 
+    return false;
+}
+  
     bool isCycle(int V, vector<vector<int>>& edges) {
-
+        // Code here
         vector<int> adj[V];
 
         // Create adjacency list
@@ -38,17 +29,14 @@ public:
             adj[u].push_back(v);
             adj[v].push_back(u);
         }
-
+        
         int vis[V] = {0};
-
-        // Check every component
-        for (int i = 0; i < V; i++) {
-            if (!vis[i]) {
-                if (detect(i, adj, vis))
-                    return true;
+        
+        for(int i = 0;i<V;i++){
+            if(!vis[i]){
+                if(checkCycle(i, -1, adj, vis))return true;
             }
         }
-
         return false;
     }
 };
